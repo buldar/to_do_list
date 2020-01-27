@@ -6,7 +6,7 @@ class ToDoListTask extends React.Component {
 
     render = () => {
         let tasksEl = this.props.atributForTasks.map(task => <OneTask
-            task={task}
+            taskProperties={task}
             // title={task.title}
             // isDone={task.isDone}
             // priority={task.priority}
