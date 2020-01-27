@@ -9,9 +9,9 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.newTaskTitle = React.createRef();
+        // this.newTaskTitle = React.createRef();
     }
-
+    newTaskTitle = React.createRef();
     state = {
         tasks : [
             {title: "JS", isDone: true, priority: "high"},
@@ -19,7 +19,7 @@ class App extends React.Component {
             {title: "HTML", isDone: true, priority: "low"},
             {title: "REACT", isDone: false, priority: "high"}
         ],
-        myFiltr : "Active"
+        //filterValue : "Complited"
     };
 
     onAddTaskClick = () => {
@@ -34,13 +34,20 @@ class App extends React.Component {
         this.newTaskTitle.current.value = "";
     }
 
+        changeFilter = (newFilterValue) => {
+            this.setState({
+                filterValue: newFilterValue
+        });
+        }
+
+
     render = () => {
         return (
             <div className="App">
                 <div className="todoList">
                     <ToDoListHeader  onClick = {this.onAddTaskClick} onTitle = {this.newTaskTitle }/>
                     <ToDoListTask atributForTasks={this.state.tasks}/>
-                    <ToDoListFooter filterValue={this.state.myFiltr}/>
+                    <ToDoListFooter changeFilter = {this.changeFilter} filterValue={this.state.filterValue}/>
 
                 </div>
             </div>
