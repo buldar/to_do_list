@@ -1,4 +1,5 @@
 import React from 'react';
+import ButtonFooter from "./ButtonFooter";
 
 
 class ToDoListFooter extends React.Component {
@@ -8,9 +9,9 @@ class ToDoListFooter extends React.Component {
         let classForActive = this.props.filterValue === "Active" ? "filter-active" : "";
         return (
             <div className="todoList-footer">
-                <button onClick={()=>{this.props.changeFilter('All')}} className={classForAll}>All</button>
-                <button onClick={()=>{this.props.changeFilter('Completed')}} className={classForCompleted}>Completed</button>
-                <button onClick={()=>{this.props.changeFilter('Active')}} className={classForActive}>Active</button>
+                <ButtonFooter title={'All'} btnClass={classForAll} onClick={()=>{this.props.changeFilter('All')}}/>
+                <ButtonFooter title={'Completed'} btnClass={classForCompleted} onClick={()=>{this.props.changeFilter('Completed')}}/>
+                <ButtonFooter title={'Active'} btnClass={classForActive} onClick={()=>{this.props.changeFilter('Active')}}/>
             </div>
         );
     }
