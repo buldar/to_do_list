@@ -9,10 +9,8 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        // this.newTaskTitle = React.createRef();
     }
 
-    newTaskTitle = React.createRef();
     state = {
         tasks: [
             {title: "JS", isDone: true, priority: "high"},
@@ -20,20 +18,18 @@ class App extends React.Component {
             {title: "HTML", isDone: true, priority: "low"},
             {title: "REACT", isDone: false, priority: "high"}
         ],
-        //filterValue : "Complited"
     };
-
-    onAddTaskClick = () => {
-        let newText = this.newTaskTitle.current.value;
+    addTask = (newText) => {
         let newTask = {
             title: newText,
-            isDone: true,
+            isDone: false,
             priority: "medium"
         };
         let newTasks = [...this.state.tasks, newTask];
+
         this.setState({tasks: newTasks});
-        this.newTaskTitle.current.value = "";
     }
+
 
     changeFilter = (newFilterValue) => {
         this.setState({
@@ -41,6 +37,8 @@ class App extends React.Component {
         });
     }
     changeStatus = (task, isDone) => {
+
+
         let newTasks = this.state.tasks.map(t => {
                 if (t != task) {
                     return t;
@@ -50,6 +48,8 @@ class App extends React.Component {
             }
         );
         this.setState({tasks: newTasks})
+
+
     }
 
 
@@ -57,7 +57,7 @@ class App extends React.Component {
         return (
             <div className="App">
                 <div className="todoList">
-                    <ToDoListHeader onClick={this.onAddTaskClick} onTitle={this.newTaskTitle}/>
+                    <ToDoListHeader onClick={this.addTask} onTitle={this.newTaskTitle}/>
                     <ToDoListTask
                         changeStatus={this.changeStatus}
                         atributForTasks={this.state.tasks.filter(t => {
@@ -77,7 +77,8 @@ class App extends React.Component {
                             }
                         })
                         }/>
-                    <ToDoListFooter changeFilter={this.changeFilter} filterValue={this.state.filterValue}/>
+                    <ToDoListFooter changeFilter={this.changeFilter} filterValue={this.state.filterValue}
+                                    inpval={this.newTaskTitle}/>
 
                 </div>
             </div>
