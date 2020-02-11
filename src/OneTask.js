@@ -14,9 +14,9 @@ class OneTask extends React.Component {
     onIsDoneChanged = (e) => {
         this.props.changeStatus(this.props.taskProperties.id, e.currentTarget.checked)
     }
-    // changeCurrentTask =() =>{
-    //     this.props.changeTask(this.props.taskProperties.id, e.currentTarget.value)
-    // }
+    changeCurrentTask =(e) =>{
+        this.props.changeTask(this.props.taskProperties.id, e.currentTarget.value)
+    }
 
     render = () => {
 

@@ -47,12 +47,12 @@ class App extends React.Component {
         this.setState({tasks: newTasks})
     }
     //сомнительная херня
-    changeTask = (taskId, value) => {
+    changeTask = (taskId, title) => {
         let newTasks = this.state.tasks.map(t => {
                 if (t.id != taskId) {
                     return t;
                 } else {
-                    return {...t, value: value};
+                    return {...t, title: title};
                 }
             }
         );
@@ -65,6 +65,7 @@ class App extends React.Component {
                 <div className="todoList">
                     <ToDoListHeader onClick={this.addTask} onTitle={this.newTaskTitle}/>
                     <ToDoListTask
+                        changeTask={this.changeTask}
                         changeStatus={this.changeStatus}
                         atributForTasks={this.state.tasks.filter(t => {
                             switch (this.state.filterValue) {
