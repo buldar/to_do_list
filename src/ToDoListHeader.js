@@ -6,7 +6,6 @@ class ToDoListHeader extends React.Component {
         error: false,
         title: ''
     }
-    newTaskTitle = React.createRef();
 
     onKeyPress = (e) => {
         if(e.key==='Enter') {
@@ -14,20 +13,19 @@ class ToDoListHeader extends React.Component {
         }
     }
     addClick = () => {
-        let newText= this.newTaskTitle.current.value;
+        let newText= this.state.title;
         if (newText === "") {
             this.setState(
                 {error: true}
             )
         } else {
         this.props.onClick(newText);
-        this.newTaskTitle.current.value = "";
+        this.setState( {title: ''})
     }}
-    //33333
     changeInput = (e) => {
+        this.setState({title: e.currentTarget.value})
 
-
-        if (this.newTaskTitle.current.value != '') {
+        if (e.currentTarget.value != '') {
             this.setState({error: false})
         } else {
             this.setState({error: true})
@@ -42,8 +40,8 @@ class ToDoListHeader extends React.Component {
                 <h3 className="todoList-header__title">What to Learn</h3>
                 <div className="todoList-newTaskForm">
                     <input value={this.state.title}
+                           //autoFocus={true}
                            onChange={this.changeInput}
-                           ref={this.newTaskTitle}
                            onKeyPress={this.onKeyPress}
                            type="text"
                            placeholder="New task name"

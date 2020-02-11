@@ -21,3 +21,16 @@
 .taskdone {
   opacity: 0.5;
 }
+.lowpriority {
+    color: green;
+}
+.mediumpriority {
+    color: orange;
+
+}
+.highpriority {
+    color: red;
+}
+.unknownpriority {
+    background-color: white;
+}

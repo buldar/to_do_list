@@ -7,20 +7,20 @@ import ToDoListFooter from "./ToDoListFooter";
 
 class App extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
 
     state = {
         tasks: [
-            {title: "JS", isDone: true, priority: "high"},
-            {title: "CSS", isDone: false, priority: "low"},
-            {title: "HTML", isDone: true, priority: "low"},
-            {title: "REACT", isDone: false, priority: "high"}
+            {id: 0, title: "JS", isDone: true, priority: "high"},
+            {id: 1, title: "CSS", isDone: false, priority: "low"},
+            {id: 2, title: "HTML", isDone: true, priority: "low"},
+            {id: 3, title: "REACT", isDone: false, priority: "high"}
         ],
+        filterValue: 'All',
     };
+    nextTaskId = 4;
     addTask = (newText) => {
         let newTask = {
+            id: this.nextTaskId,
             title: newText,
             isDone: false,
             priority: "medium"
@@ -28,19 +28,16 @@ class App extends React.Component {
         let newTasks = [...this.state.tasks, newTask];
 
         this.setState({tasks: newTasks});
+        this.nextTaskId++;
     }
-
-
     changeFilter = (newFilterValue) => {
         this.setState({
             filterValue: newFilterValue
         });
     }
-    changeStatus = (task, isDone) => {
-
-
+    changeStatus = (taskId, isDone) => {
         let newTasks = this.state.tasks.map(t => {
-                if (t != task) {
+                if (t.id != taskId) {
                     return t;
                 } else {
                     return {...t, isDone: isDone};
@@ -48,10 +45,19 @@ class App extends React.Component {
             }
         );
         this.setState({tasks: newTasks})
-
-
     }
-
+    //сомнительная херня
+    changeTask = (taskId, value) => {
+        let newTasks = this.state.tasks.map(t => {
+                if (t.id != taskId) {
+                    return t;
+                } else {
+                    return {...t, value: value};
+                }
+            }
+        );
+        this.setState({tasks: newTasks})
+    }
 
     render = () => {
         return (
