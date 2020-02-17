@@ -9,15 +9,17 @@ class App extends React.Component {
 
 
     state = {
-        tasks: [
-            {id: 0, title: "JS", isDone: true, priority: "high"},
-            {id: 1, title: "CSS", isDone: false, priority: "low"},
-            {id: 2, title: "HTML", isDone: true, priority: "low"},
-            {id: 3, title: "REACT", isDone: false, priority: "high"}
-        ],
+        // tasks: [
+        //     {id: 0, title: "JS", isDone: true, priority: "high"},
+        //     {id: 1, title: "CSS", isDone: false, priority: "low"},
+        //     {id: 2, title: "HTML", isDone: true, priority: "low"},
+        //     {id: 3, title: "REACT", isDone: false, priority: "high"}
+        // ],
+        tasks: [],
         filterValue: 'All',
     };
-    nextTaskId = 4;
+         nextTaskId = null;
+
     addTask = (newText) => {
         let newTask = {
             id: this.nextTaskId,
@@ -25,9 +27,13 @@ class App extends React.Component {
             isDone: false,
             priority: "medium"
         };
+
         let newTasks = [...this.state.tasks, newTask];
 
-        this.setState({tasks: newTasks});
+        this.setState({
+            tasks: newTasks
+        }, () => {this.saveToStorage();}
+        );
         this.nextTaskId++;
     }
     changeFilter = (newFilterValue) => {
@@ -35,28 +41,41 @@ class App extends React.Component {
             filterValue: newFilterValue
         });
     }
-    changeStatus = (taskId, isDone) => {
+    changeCheckAndTitle = (taskId, obj) => {
         let newTasks = this.state.tasks.map(t => {
                 if (t.id != taskId) {
                     return t;
                 } else {
-                    return {...t, isDone: isDone};
+                    return {...t, ...obj};
                 }
             }
         );
         this.setState({tasks: newTasks})
     }
-    //сомнительная херня
+    changeStatus = (taskId, isDone) => {
+        this.changeCheckAndTitle(taskId, {isDone: isDone});
+    }
     changeTask = (taskId, title) => {
-        let newTasks = this.state.tasks.map(t => {
-                if (t.id != taskId) {
-                    return t;
-                } else {
-                    return {...t, title: title};
-                }
-            }
-        );
-        this.setState({tasks: newTasks})
+        this.changeCheckAndTitle(taskId, {title: title})
+    }
+    saveToStorage = () => {
+        let stateAsString = JSON.stringify(this.state);
+        localStorage.setItem('our-state', stateAsString);
+    };
+    loadFromStorage = () => {
+        let state = {
+           tasks: [],
+           filterValue: 'All'
+        };
+        let stateAsString = localStorage.getItem('our-state');
+        if (stateAsString!=null) {
+            state=JSON.parse(stateAsString);
+        }
+        this.setState(state);
+        this.nextTaskId = state.tasks.length+1;
+    }
+    componentDidMount() {
+        this.loadFromStorage();
     }
 
     render = () => {
