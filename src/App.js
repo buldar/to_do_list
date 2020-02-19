@@ -6,11 +6,9 @@ import AddNewItemForm from "./AddNewItemForm";
 
 class App extends React.Component {
     state = {
-        todolists: [
-            {di: 1, title: 'estrtre'}
-        ],
-        nextToDoListId: 0,
+        todolists: [],
     }
+    nextToDoListId = 1;
 
     addToDoList = (item) => {
         let newToDoList = {
