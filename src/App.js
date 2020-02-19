@@ -13,9 +13,9 @@ class App extends React.Component {
         nextToDoListId: 3,
     }
 
-    addToDoList = (title) => {
+    addToDoList = (item) => {
         let newToDoList = {
-            title: title,
+            title: item,
             id: this.nextToDoListId,
         };
         this.nextToDoList++;
