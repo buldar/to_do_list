@@ -6,7 +6,9 @@ import AddNewItemForm from "./AddNewItemForm";
 
 class App extends React.Component {
     state = {
-        todolists: [],
+        todolists: [
+            {di: 1, title: 'estrtre'}
+        ],
         nextToDoListId: 0,
     }
 
@@ -49,7 +51,7 @@ class App extends React.Component {
     render = () => {
 
 
-        let toDoListsElements = this.state.todolists.map(x => {return <ToDoList id={x.id} title={x.title} key={x.id}/>});
+        let toDoListsElements = this.state.todolists.map(x => <ToDoList id={x.id} title={x.title} key={x.id}/>);
 
         return (
 

@@ -5,12 +5,6 @@ import ToDoListFooter from "./ToDoListFooter";
 
 class ToDoList extends React.Component {
     state = {
-        // tasks: [
-        //     {id: 0, title: "JS", isDone: true, priority: "high"},
-        //     {id: 1, title: "CSS", isDone: false, priority: "low"},
-        //     {id: 2, title: "HTML", isDone: true, priority: "low"},
-        //     {id: 3, title: "REACT", isDone: false, priority: "high"}
-        // ],
         tasks: [],
         filterValue: 'All',
     };
