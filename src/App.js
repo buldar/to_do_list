@@ -1,16 +1,13 @@
 import React from 'react';
 import './App.css';
 import ToDoList from "./ToDoList";
-import ToDoListHeader from "./ToDoListHeader";
+import AddNewItemForm from "./AddNewItemForm";
 
 
 class App extends React.Component {
     state = {
-        todolists: [
-            {id: 1, title: '1 to do'},
-            {id: 2, title: '2 to do'},
-        ],
-        nextToDoListId: 3,
+        todolists: [],
+        nextToDoListId: 0,
     }
 
     addToDoList = (item) => {
@@ -18,31 +15,48 @@ class App extends React.Component {
             title: item,
             id: this.nextToDoListId,
         };
-        this.nextToDoList++;
         this.setState({
-            todolists: [...this.state.todolists, newToDoList]
-        })
+                todolists: [...this.state.todolists, newToDoList]
+            }, () => {
+                this.saveToStorage();
+            }
+        )
+        this.nextToDoListId++;
+    }
+    saveToStorage = () => {
+        let stateAsString = JSON.stringify(this.state);
+        localStorage.setItem('todolists', stateAsString);
+    };
+    loadFromStorage = () => {
+        let stateAsString = localStorage.getItem('todolists');
+        if (stateAsString != null) {
+            let state = JSON.parse(stateAsString);
 
+            state.todolists.forEach(x => {
+                if (x.id >= this.nextToDoListId) {
+                    this.nextToDoListId = x.id + 1;
+                }
+            });
+            this.setState(state);
+        }
     }
 
-    saveState = () => {
-        let stateAsString = JSON.stringify(this.state);
-        localStorage.setItem('todolists', stateAsString)
-    };
+    componentDidMount() {
+        this.loadFromStorage();
+    }
 
 
     render = () => {
 
 
-        let toDoListsElements = this.state.todolists.map(x => {
-            return <ToDoList id={x.id} title={x.title} key={x.id}/>
-        })
+        let toDoListsElements = this.state.todolists.map(x => {return <ToDoList id={x.id} title={x.title} key={x.id}/>});
 
         return (
 
             <div className="App">
-                <ToDoListHeader/>
+                <AddNewItemForm addItem={this.addToDoList}/>
                 {toDoListsElements}
+                {/*<ToDoListHeader/>*/}
                 {/*<ToDoList id={1}/>*/}
                 {/*<ToDoList id={2}/>*/}
             </div>

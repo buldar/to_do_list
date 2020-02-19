@@ -14,7 +14,7 @@ class ToDoList extends React.Component {
         tasks: [],
         filterValue: 'All',
     };
-    nextTaskId = null;
+    nextTaskId = 0;
 
     addTask = (newText) => {
         let newTask = {
@@ -57,7 +57,7 @@ class ToDoList extends React.Component {
     saveToStorage = () => {
         let stateAsString = JSON.stringify(this.state);
         localStorage.setItem('our-state'+this.props.id, stateAsString);
-    };
+       };
     loadFromStorage = () => {
         let state = {
             tasks: [],

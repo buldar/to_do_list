@@ -20,7 +20,7 @@ class AddNewItemForm extends React.Component {
                 {error: true}
             )
         } else {
-            this.props.onClick(newText);
+            this.props.addItem(newText);
             this.setState( {title: ''})
         }}
     changeInput = (e) => {
@@ -44,7 +44,7 @@ class AddNewItemForm extends React.Component {
                            onChange={this.changeInput}
                            onKeyPress={this.onKeyPress}
                            type="text"
-                           placeholder="New task name"
+                           placeholder="New item name"
                            className={classforinput}/>
                     <button onClick={this.addClick}>Add</button>
                 </div>
