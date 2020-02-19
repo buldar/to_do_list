@@ -35,6 +35,7 @@ class AddNewItemForm extends React.Component {
 
 
     render() {
+
         let classforinput = (this.state.error) ? 'error' : '';
         return (
 
