@@ -2,6 +2,7 @@ import React from 'react'
 import ToDoListHeader from "./ToDoListHeader";
 import ToDoListTask from "./ToDoListTask";
 import ToDoListFooter from "./ToDoListFooter";
+import {connect} from "react-redux";
 
 class ToDoList extends React.Component {
     state = {
@@ -17,13 +18,7 @@ class ToDoList extends React.Component {
             isDone: false,
             priority: "medium"
         };
-
-        let newTasks = [...this.state.tasks, newTask];
-
-        this.setState({
-                tasks: newTasks
-            }, () => {this.saveToStorage();}
-        );
+        this.props.addTask(newTask, this.props.id);
         this.nextTaskId++;
     }
     changeFilter = (newFilterValue) => {
@@ -50,31 +45,33 @@ class ToDoList extends React.Component {
     }
     saveToStorage = () => {
         let stateAsString = JSON.stringify(this.state);
-        localStorage.setItem('our-state'+this.props.id, stateAsString);
-       };
+        localStorage.setItem('our-state' + this.props.id, stateAsString);
+    };
     loadFromStorage = () => {
         let state = {
             tasks: [],
             filterValue: 'All'
         };
-        let stateAsString = localStorage.getItem('our-state'+this.props.id);
-        if (stateAsString!=null) {
-            state=JSON.parse(stateAsString);
+        let stateAsString = localStorage.getItem('our-state' + this.props.id);
+        if (stateAsString != null) {
+            state = JSON.parse(stateAsString);
         }
         this.setState(state);
-        this.nextTaskId = state.tasks.length+1;
+        this.nextTaskId = state.tasks.length + 1;
     }
+
     componentDidMount() {
         this.loadFromStorage();
     }
-    render () {
+
+    render() {
         return (
             <div className="todoList">
                 <ToDoListHeader onClick={this.addTask} onTitle={this.newTaskTitle} title={this.props.title}/>
                 <ToDoListTask
                     changeTask={this.changeTask}
                     changeStatus={this.changeStatus}
-                    atributForTasks={this.state.tasks.filter(t => {
+                    atributForTasks={this.props.tasks.filter(t => {
                         switch (this.state.filterValue) {
                             case 'All':
                                 return true;
@@ -99,4 +96,26 @@ class ToDoList extends React.Component {
     }
 }
 
-export default ToDoList;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addTask: (newTask, todolistId) => {
+            const action = {
+                type: 'ADD-TASK',
+                newTask,
+                todolistId,
+            }
+            dispatch(action);
+        },
+        // changeTask: (taskId, obj, todolistId) => {
+        //     const action = {
+        //         type: "CHANGE-TASK-TITLE",
+        //         taskId,
+        //         obj,
+        //         todolistId
+        //     }
+        // }
+    }
+}
+
+const ConnectedApp = connect(null, mapDispatchToProps)(ToDoList);
+export default ConnectedApp;

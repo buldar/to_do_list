@@ -23,7 +23,7 @@ class ToDoListFooter extends React.Component {
         return (
             <div>
                 {this.state.showbtns &&  <div className="todoList-footer">
-                <ButtonFooter title={'All'} btnClass={classForAll} onClick={()=>{this.props.changeFilter('All')}}/>
+                <ButtonFooter title={'All'} btnClass={classForAll} onClick= {()=>{this.props.changeFilter('All')}}/>
                 <ButtonFooter title={'Completed'} btnClass={classForCompleted} onClick={()=>{this.props.changeFilter('Completed')}}/>
                 <ButtonFooter title={'Active'} btnClass={classForActive} onClick={()=>{this.props.changeFilter('Active')}}/>
             </div>}
