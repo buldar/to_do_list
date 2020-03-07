@@ -6,22 +6,17 @@ import {connect} from "react-redux";
 
 
 class App extends React.Component {
-    state = {
-        todolists: [],
-    }
-    nextToDoListId = 1;
+    // state = {
+    //     todolists: [],
+    // }
+    nextToDoListId = 3;
 
     addToDoList = (item) => {
         let newToDoList = {
             title: item,
             id: this.nextToDoListId,
+            tasks: []
         };
-        // this.setState({
-        //         todolists: [...this.state.todolists, newToDoList]
-        //     }, () => {
-        //         this.saveToStorage();
-        //     }
-        // )
         this.props.addToDoList(newToDoList);
         this.nextToDoListId++;
     }
@@ -50,17 +45,22 @@ class App extends React.Component {
 
 
     render = () => {
-        // let toDoListsElements = this.state.todolists.map(x => <ToDoList id={x.id} title={x.title} key={x.id}/>);
-        let toDoListsElements = this.props.todolists.map(x => <ToDoList id={x.id} title={x.title} key={x.id} tasks={x.tasks}/>);
+        let toDoListsElements = this.props
+            .todolists
+            .map(x => <ToDoList id={x.id} title={x.title} key={x.id} tasks={x.tasks}/>);
+
         return (
-            <div className="App">
-                <AddNewItemForm addItem={this.addToDoList}/>
-                {toDoListsElements}
-            </div>
+            <>
+                <div>
+                    <AddNewItemForm addItem={this.addToDoList}/>
+                </div>
+                <div className="App">
+                    {toDoListsElements}
+                </div>
+            </>
         );
     }
 }
-// export default App;
 
 const mapStateToProps = (state) => {
     return {
@@ -73,9 +73,9 @@ const mapDispatchToProps = (dispatch) => {
         addToDoList: (newToDoList) => {
             const action = {
                 type: "ADD-TODOLIST",
-                newToDoList: newToDoList
-            };
-            dispatch(action);
+                newToDoList
+            }
+            dispatch(action)
         }
     }
 }
