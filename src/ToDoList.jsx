@@ -9,9 +9,10 @@ class ToDoList extends React.Component {
         tasks: [],
         filterValue: 'All',
     };
-    nextTaskId = 3;
+    nextTaskId = this.props.tasks.length+1;
 
     addTask = (newText) => {
+
         let newTask = {
             id: this.nextTaskId,
             title: newText,
@@ -49,7 +50,7 @@ class ToDoList extends React.Component {
             state = JSON.parse(stateAsString);
         }
         this.setState(state);
-        this.nextTaskId = state.tasks.length + 1;
+       // this.nextTaskId = state.tasks.length + 1;
     }
 
     componentDidMount() {
