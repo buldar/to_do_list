@@ -25,6 +25,28 @@ const reducer = (state = initialState, action) => {
                     }
                 })
             }
+        case "CHANGE-TASK-TITLE":
+            return {
+                ...state,
+                todolists: state.todolists.map (x=>{
+                    if (x.id === action.todolistId) {
+                        return {...x, tasks: x.tasks.map(x=>{
+                            if (x.id === action.taskId) {
+                                return {...x, ...action.obj}
+                            } else {
+                                return x;
+                            }
+                            })};
+                    } else {
+                        return x;
+                    }
+                })
+
+            }
+        case "DEL-TASK":
+            return {
+
+            }
     }
     console.log('reducer: ', action);
     return state;

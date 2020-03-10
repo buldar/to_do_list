@@ -6,11 +6,14 @@ import {connect} from "react-redux";
 
 
 class App extends React.Component {
-    // state = {
-    //     todolists: [],
-    // }
+
+    state = {
+        // todolists: [],
+        // test: true,
+    }
     nextToDoListId = 3;
 
+// test = true;
     addToDoList = (item) => {
         let newToDoList = {
             title: item,

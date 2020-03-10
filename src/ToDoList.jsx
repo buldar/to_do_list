@@ -27,15 +27,7 @@ class ToDoList extends React.Component {
         });
     }
     changeCheckAndTitle = (taskId, obj) => {
-        let newTasks = this.state.tasks.map(t => {
-                if (t.id != taskId) {
-                    return t;
-                } else {
-                    return {...t, ...obj};
-                }
-            }
-        );
-        this.setState({tasks: newTasks})
+        this.props.changeTask(taskId, obj, this.props.id)
     }
     changeStatus = (taskId, isDone) => {
         this.changeCheckAndTitle(taskId, {isDone: isDone});
@@ -106,14 +98,20 @@ const mapDispatchToProps = (dispatch) => {
             }
             dispatch(action);
         },
-        // changeTask: (taskId, obj, todolistId) => {
-        //     const action = {
-        //         type: "CHANGE-TASK-TITLE",
-        //         taskId,
-        //         obj,
-        //         todolistId
-        //     }
-        // }
+        changeTask: (taskId, obj, todolistId) => {
+            const action = {
+                type: "CHANGE-TASK-TITLE",
+                taskId,
+                obj,
+                todolistId
+            }
+            dispatch(action);
+        },
+        delTask: () => {
+            const action = {
+                type: "DEL-TASK"
+            }
+        }
     }
 }
 
