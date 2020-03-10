@@ -14,7 +14,7 @@ class ToDoListHeader extends React.Component {
             <div className="todoList-header">
                 <ToDoListTitle title={this.props.title}/>
                 <AddNewItemForm addItem={this.props.onClick}/>
-            </div>
+             </div>
         );
     }
 }

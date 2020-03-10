@@ -9,7 +9,7 @@ class ToDoList extends React.Component {
         tasks: [],
         filterValue: 'All',
     };
-    nextTaskId = 0;
+    nextTaskId = 3;
 
     addTask = (newText) => {
         let newTask = {
@@ -56,11 +56,17 @@ class ToDoList extends React.Component {
         this.loadFromStorage();
     }
 
+    delToDoList = () => {
+        this.props.delToDoList(this.props.id);
+    }
+
     render() {
         return (
             <div className="todoList">
                 <ToDoListHeader onClick={this.addTask} onTitle={this.newTaskTitle} title={this.props.title}/>
+                <div><button onClick = {this.delToDoList}>x</button></div>
                 <ToDoListTask
+                    tlId ={this.props.id}
                     changeTask={this.changeTask}
                     changeStatus={this.changeStatus}
                     atributForTasks={this.props.tasks.filter(t => {
@@ -107,10 +113,12 @@ const mapDispatchToProps = (dispatch) => {
             }
             dispatch(action);
         },
-        delTask: () => {
+        delToDoList: (todolistId) => {
             const action = {
-                type: "DEL-TASK"
+                type: "DEL-TODOLIST",
+                todolistId
             }
+            dispatch(action);
         }
     }
 }
