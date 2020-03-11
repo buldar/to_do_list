@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
+import {DEL_TASK, delTasktCreator} from "./Reducers";
 
 
 class OneTask extends React.Component {
@@ -46,12 +47,13 @@ class OneTask extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         delTask: (todolistId, taskId) => {
-            const action = {
-                type: "DEL-TASK",
-                todolistId,
-                taskId,
-            }
-            dispatch(action)
+            // const action = {
+            //     type: DEL_TASK,
+            //     todolistId,
+            //     taskId,
+            // }
+            // dispatch(action)
+            dispatch(delTasktCreator(todolistId, taskId));
         }
     }
 }

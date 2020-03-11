@@ -3,6 +3,14 @@ import ToDoListHeader from "./ToDoListHeader";
 import ToDoListTask from "./ToDoListTask";
 import ToDoListFooter from "./ToDoListFooter";
 import {connect} from "react-redux";
+import {
+    ADD_TASK,
+    addTaskCreator,
+    CHANGE_TASK_TITLE,
+    changeTaskCreator,
+    DEL_TODOLIST,
+    delTodolistCreator
+} from "./Reducers";
 
 class ToDoList extends React.Component {
     state = {
@@ -50,7 +58,6 @@ class ToDoList extends React.Component {
             state = JSON.parse(stateAsString);
         }
         this.setState(state);
-       // this.nextTaskId = state.tasks.length + 1;
     }
 
     componentDidMount() {
@@ -98,28 +105,31 @@ class ToDoList extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         addTask: (newTask, todolistId) => {
-            const action = {
-                type: 'ADD-TASK',
-                newTask,
-                todolistId,
-            }
-            dispatch(action);
+            // const action = {
+            //     type: ADD_TASK,
+            //     newTask,
+            //     todolistId,
+            // }
+            // dispatch(action);
+            dispatch(addTaskCreator(newTask, todolistId));
         },
         changeTask: (taskId, obj, todolistId) => {
-            const action = {
-                type: "CHANGE-TASK-TITLE",
-                taskId,
-                obj,
-                todolistId
-            }
-            dispatch(action);
+            // const action = {
+            //     type: CHANGE_TASK_TITLE,
+            //     taskId,
+            //     obj,
+            //     todolistId
+            // }
+            // dispatch(action);
+            dispatch(changeTaskCreator(taskId, obj, todolistId));
         },
         delToDoList: (todolistId) => {
-            const action = {
-                type: "DEL-TODOLIST",
-                todolistId
-            }
-            dispatch(action);
+            // const action = {
+            //     type: DEL_TODOLIST,
+            //     todolistId
+            // }
+            // dispatch(action);
+            dispatch(delTodolistCreator(todolistId));
         }
     }
 }
