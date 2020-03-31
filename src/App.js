@@ -3,27 +3,36 @@ import './App.css';
 import ToDoList from "./ToDoList";
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
-import {ADD_TODOLIST, addTodolistCreator} from "./Reducers";
+import {ADD_TODOLIST, addTodolistCreator, setTodolistsCreator} from "./Reducers";
 import axios from "axios";
 
 
 class App extends React.Component {
 
     state = {
-        // todolists: [],
-        // test: true,
     }
-    nextToDoListId = 3;
+    nextToDoListId = Math.floor(Math.random()*100);
 
 // test = true;
     addToDoList = (item) => {
-        let newToDoList = {
-            title: item,
-            id: this.nextToDoListId,
-            tasks: []
-        };
-        this.props.addToDoList(newToDoList);
-        this.nextToDoListId++;
+        // let newToDoList = {
+        //     title: item,
+        //     id: this.nextToDoListId,
+        //     tasks: []
+        // };
+        // this.props.addToDoList(newToDoList);
+        // this.nextToDoListId++;
+        axios.post("https://social-network.samuraijs.com/api/1.0/todo-lists",
+            {title: item},
+            {withCredentials: true,
+            headers: {'API-KEY':'de8c7563-dd18-4912-9001-90e13a939eac'}
+            })
+            .then(res => {
+
+                debugger
+                 this.props.addToDoList(res.data.data.item);
+            });
+
     }
 
 
@@ -46,18 +55,28 @@ class App extends React.Component {
     //         this.setState(state);
     //     }
     // }
-    restoreState = () => {
+
+
+    componentDidMount() {
+        // this.loadFromStorage();
+        // const todolists = [{
+        //     'id': 1,
+        //     'title': 'first list',
+        //     tasks: [
+        //         {'title': 'one', 'isDone': true, 'priority': 'low', 'id': 1},
+        //         {'title': 'two', 'isDone': false, 'priority': 'medium', 'id': 2},
+        //     ]
+        // }
+        // ]
         axios.get("https://social-network.samuraijs.com/api/1.0/todo-lists",
             {withCredentials: true})
             .then(res => {
                 // debugger
                 console.log(res.data);
+                this.props.setTodolists(res.data);
             });
-    }
 
-    componentDidMount() {
-        // this.loadFromStorage();
-        this.restoreState();
+
     }
 
 
@@ -88,11 +107,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addToDoList: (newToDoList) => {
-            // const action = {
-            //     type: ADD_TODOLIST,
-            //     newToDoList
-            // }
             dispatch(addTodolistCreator(newToDoList))
+        },
+        setTodolists: (todolists) => {
+            dispatch(setTodolistsCreator(todolists))
         }
     }
 }

@@ -3,12 +3,14 @@ export const ADD_TASK = 'Todolist/ReducerADD-TASK';
 export const CHANGE_TASK_TITLE = 'Todolist/ReducerCHANGE-TASK-TITLE';
 export const DEL_TODOLIST = 'Todolist/ReducerDEL-TODOLIST';
 export const DEL_TASK = 'Todolist/ReducerDEL-TASK';
+export const SET_TODOLISTS = 'SET-TODOLISTS';
 
 export const addTodolistCreator = (newToDoList) => ({type: ADD_TODOLIST, newToDoList})
 export const addTaskCreator = (newTask, todolistId) => ({type: ADD_TASK, newTask, todolistId})
 export const changeTaskCreator = (taskId, obj, todolistId) => ({type: CHANGE_TASK_TITLE, taskId, obj, todolistId})
 export const delTodolistCreator = (todolistId) => ({type: DEL_TODOLIST, todolistId})
 export const delTasktCreator = (todolistId, taskId) => ({type: DEL_TASK, todolistId, taskId})
+export const setTodolistsCreator = (todolists) => ({type:SET_TODOLISTS, todolists})
 
 
 const initialState = {
@@ -17,10 +19,10 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case "SET-TODOLIST":
+        case "SET-TODOLISTS":
             return {
                 ...state,
-                todolists: action.todolists
+                todolists: action.todolists.map(x=>({...x, tasks:[]}))
             }
         case "Todolist/Reducer/ADD-TODOLIST":
             return {

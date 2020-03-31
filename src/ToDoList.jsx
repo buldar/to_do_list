@@ -17,7 +17,8 @@ class ToDoList extends React.Component {
         tasks: [],
         filterValue: 'All',
     };
-    nextTaskId = this.props.tasks.length+1;
+    nextTaskId = Math.floor(Math.random()*1000);
+    // nextTaskId = this.props.tasks.length+1;
 
     addTask = (newText) => {
 
@@ -69,6 +70,7 @@ class ToDoList extends React.Component {
     }
 
     render() {
+        let {tasks=[]} = this.props;
         return (
             <div className="todoList">
                 <ToDoListHeader onClick={this.addTask} onTitle={this.newTaskTitle} title={this.props.title}/>
@@ -77,7 +79,7 @@ class ToDoList extends React.Component {
                     tlId ={this.props.id}
                     changeTask={this.changeTask}
                     changeStatus={this.changeStatus}
-                    atributForTasks={this.props.tasks.filter(t => {
+                    atributForTasks={/*this.props.*/tasks.filter(t => {
                         switch (this.state.filterValue) {
                             case 'All':
                                 return true;
