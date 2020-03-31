@@ -4,6 +4,7 @@ export const CHANGE_TASK_TITLE = 'Todolist/ReducerCHANGE-TASK-TITLE';
 export const DEL_TODOLIST = 'Todolist/ReducerDEL-TODOLIST';
 export const DEL_TASK = 'Todolist/ReducerDEL-TASK';
 export const SET_TODOLISTS = 'SET-TODOLISTS';
+export const SET_TASKS = 'SET-TASKS'
 
 export const addTodolistCreator = (newToDoList) => ({type: ADD_TODOLIST, newToDoList})
 export const addTaskCreator = (newTask, todolistId) => ({type: ADD_TASK, newTask, todolistId})
@@ -11,6 +12,7 @@ export const changeTaskCreator = (taskId, obj, todolistId) => ({type: CHANGE_TAS
 export const delTodolistCreator = (todolistId) => ({type: DEL_TODOLIST, todolistId})
 export const delTasktCreator = (todolistId, taskId) => ({type: DEL_TASK, todolistId, taskId})
 export const setTodolistsCreator = (todolists) => ({type:SET_TODOLISTS, todolists})
+export const setTasksCreator = (tasks, todolistId)=> ({type:SET_TASKS, tasks, todolistId})
 
 
 const initialState = {
@@ -19,6 +21,19 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case "SET-TASKS":
+            return {
+                ...state,
+                todolists: state.todolists.map(x => {
+                        if (x.id != action.todolistId) return x;
+                        else return {
+                            ...x,
+                            tasks: action.tasks
+                        }
+
+                    }
+                )
+            }
         case "SET-TODOLISTS":
             return {
                 ...state,

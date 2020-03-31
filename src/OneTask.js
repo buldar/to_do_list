@@ -47,12 +47,7 @@ class OneTask extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         delTask: (todolistId, taskId) => {
-            // const action = {
-            //     type: DEL_TASK,
-            //     todolistId,
-            //     taskId,
-            // }
-            // dispatch(action)
+
             dispatch(delTasktCreator(todolistId, taskId));
         }
     }
