@@ -4,6 +4,7 @@ import OneTask from "./OneTask";
 class ToDoListTask extends React.Component {
 
 
+
     render = () => {
             let tasksEl = this.props.atributForTasks.map(task => <OneTask
             taskProperties={task}

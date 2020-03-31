@@ -4,6 +4,7 @@ import ToDoList from "./ToDoList";
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
 import {ADD_TODOLIST, addTodolistCreator} from "./Reducers";
+import axios from "axios";
 
 
 class App extends React.Component {
@@ -25,26 +26,38 @@ class App extends React.Component {
         this.nextToDoListId++;
     }
 
-    saveToStorage = () => {
-        let stateAsString = JSON.stringify(this.state);
-        localStorage.setItem('todolists', stateAsString);
-    };
-    loadFromStorage = () => {
-        let stateAsString = localStorage.getItem('todolists');
-        if (stateAsString != null) {
-            let state = JSON.parse(stateAsString);
 
-            state.todolists.forEach(x => {
-                if (x.id >= this.nextToDoListId) {
-                    this.nextToDoListId = x.id + 1;
-                }
+    // saveToStorage = () => {
+    //     let stateAsString = JSON.stringify(this.state);
+    //     localStorage.setItem('todolists', stateAsString);
+    // };
+
+
+    // loadFromStorage = () => {
+    //     let stateAsString = localStorage.getItem('todolists');
+    //     if (stateAsString != null) {
+    //         let state = JSON.parse(stateAsString);
+    //
+    //         state.todolists.forEach(x => {
+    //             if (x.id >= this.nextToDoListId) {
+    //                 this.nextToDoListId = x.id + 1;
+    //             }
+    //         });
+    //         this.setState(state);
+    //     }
+    // }
+    restoreState = () => {
+        axios.get("https://social-network.samuraijs.com/api/1.0/todo-lists",
+            {withCredentials: true})
+            .then(res => {
+                // debugger
+                console.log(res.data);
             });
-            this.setState(state);
-        }
     }
 
     componentDidMount() {
-        this.loadFromStorage();
+        // this.loadFromStorage();
+        this.restoreState();
     }
 
 

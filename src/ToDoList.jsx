@@ -44,25 +44,25 @@ class ToDoList extends React.Component {
     changeTask = (taskId, title) => {
         this.changeCheckAndTitle(taskId, {title: title})
     }
-    saveToStorage = () => {
-        let stateAsString = JSON.stringify(this.state);
-        localStorage.setItem('our-state' + this.props.id, stateAsString);
-    };
-    loadFromStorage = () => {
-        let state = {
-            tasks: [],
-            filterValue: 'All'
-        };
-        let stateAsString = localStorage.getItem('our-state' + this.props.id);
-        if (stateAsString != null) {
-            state = JSON.parse(stateAsString);
-        }
-        this.setState(state);
-    }
-
-    componentDidMount() {
-        this.loadFromStorage();
-    }
+    // saveToStorage = () => {
+    //     let stateAsString = JSON.stringify(this.state);
+    //     localStorage.setItem('our-state' + this.props.id, stateAsString);
+    // };
+    // loadFromStorage = () => {
+    //     let state = {
+    //         tasks: [],
+    //         filterValue: 'All'
+    //     };
+    //     let stateAsString = localStorage.getItem('our-state' + this.props.id);
+    //     if (stateAsString != null) {
+    //         state = JSON.parse(stateAsString);
+    //     }
+    //     this.setState(state);
+    // }
+    //
+    // componentDidMount() {
+    //     this.loadFromStorage();
+    // }
 
     delToDoList = () => {
         this.props.delToDoList(this.props.id);
