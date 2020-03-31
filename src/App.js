@@ -52,7 +52,7 @@ class App extends React.Component {
     render = () => {
         let toDoListsElements = this.props
             .todolists
-            .map(x => <ToDoList id={x.id} title={x.title} key={x.id} tasks={x.tasks}/>);
+            .map(x => <ToDoList  id={x.id} title={x.title} key={x.id} tasks={x.tasks}/>);
 
         return (
             <>

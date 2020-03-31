@@ -21,12 +21,15 @@ class ToDoList extends React.Component {
 
     componentDidMount() {
         axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks`,
-            {withCredentials: true})
+            {
+                withCredentials: true,
+                headers: {'API-KEY': 'de8c7563-dd18-4912-9001-90e13a939eac'}
+            })
             .then(res => {
-                this.props.setTasks(res.data.item, this.props.id);
+
+                this.props.setTasks(res.data.items, this.props.id);
+
             });
-
-
     }
 
     addTask = (newText) => {
