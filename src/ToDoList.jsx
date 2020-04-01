@@ -101,10 +101,10 @@ class ToDoList extends React.Component {
                                 return true;
                                 break;
                             case 'Completed':
-                                return t.isDone === true;
+                                return t.status === 2;
                                 break;
                             case 'Active':
-                                return t.isDone === false;
+                                return t.status === 0;
                                 break;
                             default:
                                 return true;
