@@ -10,9 +10,7 @@ import axios from "axios";
 class App extends React.Component {
 
     state = {}
-    nextToDoListId = Math.floor(Math.random() * 100);
 
-// test = true;
     addToDoList = (item) => {
         axios.post("https://social-network.samuraijs.com/api/1.0/todo-lists",
             {title: item},
@@ -26,15 +24,6 @@ class App extends React.Component {
             });
 
     }
-    // restoreState = () => {
-    //     axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks`,
-    //         {withCredentials: true})
-    //         .then(res => {
-    //             let allTasks = res.data.items;
-    //             this.props.setTasks(allTasks, this.props.id);
-    //         });
-    // }
-
 
     componentDidMount() {
         axios.get("https://social-network.samuraijs.com/api/1.0/todo-lists",
@@ -44,10 +33,7 @@ class App extends React.Component {
                 console.log(res.data);
                 this.props.setTodolists(res.data);
             });
-
-
     }
-
 
     render = () => {
         let toDoListsElements = this.props
