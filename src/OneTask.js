@@ -19,10 +19,6 @@ class OneTask extends React.Component {
 
         this.props.changeStatus(this.props.taskProperties, e.currentTarget.checked)
     }
-    changeCurrentTask = (e) => {
-        this.props.changeTask(this.props.taskProperties, e.currentTarget.value)
-    }
-
     delTask = () => {
         axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.tlId}/tasks/${this.props.taskProperties.id}`,
             {

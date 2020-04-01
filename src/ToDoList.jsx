@@ -84,7 +84,7 @@ class ToDoList extends React.Component {
     }
 
     render() {
-        // let {tasks = []} = this.props;
+        let {tasks = []} = this.props;
         return (
             <div className="todoList">
                 <ToDoListHeader onClick={this.addTask} onTitle={this.newTaskTitle} title={this.props.title}/>
@@ -95,7 +95,7 @@ class ToDoList extends React.Component {
                     tlId={this.props.id}
                     changeTask={this.changeTask}
                     changeStatus={this.changeStatus}
-                    atributForTasks={this.props.tasks.filter(t => {
+                    atributForTasks={/*this.props.*/tasks.filter(t => {
                         switch (this.state.filterValue) {
                             case 'All':
                                 return true;
