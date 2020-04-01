@@ -9,7 +9,8 @@ class OneTask extends React.Component {
         taskisdone: false,
         editmode: false,
     }
-    activateEditMode = () => {
+    activateEditMode = (e) => {
+        this.props.changeTask(this.props.taskProperties, e.currentTarget.value)
         this.setState({
             editmode: !this.state.editmode
         })
@@ -38,19 +39,19 @@ class OneTask extends React.Component {
 
     render = () => {
 
-        let isDone = this.props.taskProperties.status===2;
+        let isDone = this.props.taskProperties.status === 2;
         let classfordone = (isDone) ? 'todoList-task taskdone' : 'todoList-task';
         return (
 
             <div className={classfordone}>
                 <input type="checkbox" checked={isDone} onChange={this.onIsDoneChanged}/>
                 {this.state.editmode
-                    ? <input onChange={this.changeCurrentTask} value={this.props.taskProperties.title} autoFocus={true}
+                    ? <input defaultValue={this.props.taskProperties.title} autoFocus={true}
                              onBlur={this.activateEditMode}/>
                     : <span
                         onClick={this.activateEditMode}>id:{this.props.taskProperties.id}, {this.props.taskProperties.title},
                         priority: {this.props.taskProperties.priority}</span>}
-<button onClick={this.delTask}>x</button>
+                <button onClick={this.delTask}>x</button>
             </div>
 
         );
