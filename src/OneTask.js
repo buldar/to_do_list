@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import {DEL_TASK, delTasktCreator} from "./Reducers";
 import axios from "axios";
+import {api} from "./api";
 
 
 class OneTask extends React.Component {
@@ -20,11 +21,12 @@ class OneTask extends React.Component {
         this.props.changeStatus(this.props.taskProperties, e.currentTarget.checked)
     }
     delTask = () => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.tlId}/tasks/${this.props.taskProperties.id}`,
-            {
-                withCredentials: true,
-                headers: {'API-KEY': 'de8c7563-dd18-4912-9001-90e13a939eac'}
-            })
+        api.deltask (this.props.tlId, this.props.taskProperties.id)
+        // axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.tlId}/tasks/${this.props.taskProperties.id}`,
+        //     {
+        //         withCredentials: true,
+        //         headers: {'API-KEY': 'de8c7563-dd18-4912-9001-90e13a939eac'}
+        //     })
             .then(res => {
 
 

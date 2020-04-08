@@ -9,6 +9,7 @@ import {
     delTodolistCreator, setTasksCreator
 } from "./Reducers";
 import axios from "axios";
+import {api} from "./api";
 
 class ToDoList extends React.Component {
     state = {
@@ -17,25 +18,14 @@ class ToDoList extends React.Component {
     };
 
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks`,
-            {
-                withCredentials: true,
-                headers: {'API-KEY': 'de8c7563-dd18-4912-9001-90e13a939eac'}
-            })
+        api.loadTasks(this.props.id)
             .then(res => {
-
                 this.props.setTasks(res.data.items, this.props.id);
-
             });
     }
 
     addTask = (newText) => {
-        axios.post(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks`,
-            {title: newText},
-            {
-                withCredentials: true,
-                headers: {'API-KEY': 'de8c7563-dd18-4912-9001-90e13a939eac'}
-            })
+        api.addTask(newText, this.props.id)
             .then(res => {
 
                 this.props.addTask(res.data.data.item, this.props.id);
@@ -48,17 +38,8 @@ class ToDoList extends React.Component {
         });
     }
     changeCheckAndTitle = (task, obj) => {
-        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.id}/tasks/${task.id}`,
-            {
-                ...task,
-                ...obj
-            },
-            {
-                withCredentials: true,
-                headers: {'API-KEY': 'de8c7563-dd18-4912-9001-90e13a939eac'}
-            })
+        api.changeTask(task, obj, this.props.id)
             .then(res => {
-
                 this.props.changeTask(task.id, obj, this.props.id)
             });
 
@@ -71,14 +52,8 @@ class ToDoList extends React.Component {
     }
 
     delToDoList = () => {
-        axios.delete("https://social-network.samuraijs.com/api/1.0/todo-lists/" + this.props.id,
-            {
-                withCredentials: true,
-                headers: {'API-KEY': 'de8c7563-dd18-4912-9001-90e13a939eac'}
-            })
+        api.delTodolist(this.props.id)
             .then(res => {
-
-
                 this.props.delToDoList(this.props.id);
             });
     }
