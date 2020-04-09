@@ -4,12 +4,9 @@ import ToDoListTask from "./ToDoListTask";
 import ToDoListFooter from "./ToDoListFooter";
 import {connect} from "react-redux";
 import {
-    addTaskCreator,
-    changeTaskCreator,
-    delTodolistCreator, setTasksCreator
+    addTaskThunkCreator,
+    changeTaskThunkCreator, delTodolistThunkCreator, loadTasksThunkCreator
 } from "./Reducers";
-import axios from "axios";
-import {api} from "./api";
 
 class ToDoList extends React.Component {
     state = {
@@ -18,19 +15,11 @@ class ToDoList extends React.Component {
     };
 
     componentDidMount() {
-        api.loadTasks(this.props.id)
-            .then(res => {
-                this.props.setTasks(res.data.items, this.props.id);
-            });
+        this.props.loadTasks(this.props.id)
     }
 
     addTask = (newText) => {
-        api.addTask(newText, this.props.id)
-            .then(res => {
-
-                this.props.addTask(res.data.data.item, this.props.id);
-
-            });
+        this.props.addTask(newText, this.props.id)
     }
     changeFilter = (newFilterValue) => {
         this.setState({
@@ -38,11 +27,7 @@ class ToDoList extends React.Component {
         });
     }
     changeCheckAndTitle = (task, obj) => {
-        api.changeTask(task, obj, this.props.id)
-            .then(res => {
-                this.props.changeTask(task.id, obj, this.props.id)
-            });
-
+        this.props.changeTask(task, obj, this.props.id)
     }
     changeStatus = (task, isDone) => {
         this.changeCheckAndTitle(task, {status: isDone ? 2 : 0});
@@ -52,10 +37,7 @@ class ToDoList extends React.Component {
     }
 
     delToDoList = () => {
-        api.delTodolist(this.props.id)
-            .then(res => {
-                this.props.delToDoList(this.props.id);
-            });
+        this.props.delToDolist(this.props.id)
     }
 
     render() {
@@ -98,17 +80,17 @@ class ToDoList extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         addTask: (newTask, todolistId) => {
-            dispatch(addTaskCreator(newTask, todolistId));
+            dispatch(addTaskThunkCreator(newTask, todolistId));
         },
         changeTask: (taskId, obj, todolistId) => {
-            dispatch(changeTaskCreator(taskId, obj, todolistId));
+            dispatch(changeTaskThunkCreator(taskId, obj, todolistId));
         },
-        delToDoList: (todolistId) => {
-            dispatch(delTodolistCreator(todolistId));
+        delToDolist: (todolistId) => {
+            dispatch(delTodolistThunkCreator(todolistId));
         },
-        setTasks: (tasks, todolistId) => {
-            dispatch(setTasksCreator(tasks, todolistId))
-        },
+        loadTasks: (todolistId) => {
+            dispatch(loadTasksThunkCreator(todolistId))
+        }
 
     }
 }

@@ -3,9 +3,12 @@ import './App.css';
 import ToDoList from "./ToDoList";
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
-import {ADD_TODOLIST, addTodolistCreator, setTasksCreator, setTodolistsCreator} from "./Reducers";
-import axios from "axios";
-import {api} from "./api";
+import {
+    addTodolistThunkCreator,
+    loadTodolistsThunk,
+    setTasksCreator,
+    setTodolistsCreator
+} from "./Reducers";
 
 
 class App extends React.Component {
@@ -13,26 +16,17 @@ class App extends React.Component {
     state = {}
 
     addToDoList = (item) => {
-        api.addTodolist (item)
-            .then(res => {
-
-                this.props.addToDoList(res.data.data.item);
-            });
-
+        this.props.addTodolist(item)
     }
 
     componentDidMount() {
-        api.loadTodolists ()
-            .then(res => {
-                console.log(res.data);
-                this.props.setTodolists(res.data);
-            });
+        this.props.loadTodolists();
     }
 
     render = () => {
         let toDoListsElements = this.props
             .todolists
-            .map(x => <ToDoList  id={x.id} title={x.title} key={x.id} tasks={x.tasks}/>);
+            .map(x => <ToDoList id={x.id} title={x.title} key={x.id} tasks={x.tasks}/>);
 
         return (
             <>
@@ -55,12 +49,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addToDoList: (newToDoList) => {
-            dispatch(addTodolistCreator(newToDoList))
+        loadTodolists: () => {
+            dispatch(loadTodolistsThunk)
         },
-        setTodolists: (todolists) => {
-            dispatch(setTodolistsCreator(todolists))
-        },
+        addTodolist: (item) =>{
+            dispatch(addTodolistThunkCreator(item))
+        }
 
     }
 }

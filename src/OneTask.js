@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {DEL_TASK, delTasktCreator} from "./Reducers";
+import {DEL_TASK, delTasktCreator, delTaskThunkCreator} from "./Reducers";
 import axios from "axios";
 import {api} from "./api";
 
@@ -21,18 +21,14 @@ class OneTask extends React.Component {
         this.props.changeStatus(this.props.taskProperties, e.currentTarget.checked)
     }
     delTask = () => {
-        api.deltask (this.props.tlId, this.props.taskProperties.id)
-        // axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${this.props.tlId}/tasks/${this.props.taskProperties.id}`,
-        //     {
-        //         withCredentials: true,
-        //         headers: {'API-KEY': 'de8c7563-dd18-4912-9001-90e13a939eac'}
-        //     })
-            .then(res => {
-
-
-                this.props.delTask(this.props.taskProperties.id, this.props.tlId);
-            });
-        this.props.delTask(this.props.tlId, this.props.taskProperties.id);
+        this.props.delTask(this.props.tlId, this.props.taskProperties.id)
+        // api.deltask(this.props.tlId, this.props.taskProperties.id)
+        //     .then(res => {
+        //
+        //
+        //         this.props.delTask(this.props.taskProperties.id, this.props.tlId);
+        //     });
+        // this.props.delTask(this.props.tlId, this.props.taskProperties.id);
     }
 
     render = () => {
@@ -59,8 +55,7 @@ class OneTask extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         delTask: (todolistId, taskId) => {
-
-            dispatch(delTasktCreator(todolistId, taskId));
+            dispatch(delTaskThunkCreator(todolistId, taskId));
         }
     }
 }
