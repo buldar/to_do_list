@@ -1,8 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {DEL_TASK, delTasktCreator, delTaskThunkCreator} from "./Reducers";
-import axios from "axios";
-import {api} from "./api";
+import {delTaskThunkCreator} from "./Reducers";
+
 
 
 class OneTask extends React.Component {
@@ -22,13 +21,6 @@ class OneTask extends React.Component {
     }
     delTask = () => {
         this.props.delTask(this.props.tlId, this.props.taskProperties.id)
-        // api.deltask(this.props.tlId, this.props.taskProperties.id)
-        //     .then(res => {
-        //
-        //
-        //         this.props.delTask(this.props.taskProperties.id, this.props.tlId);
-        //     });
-        // this.props.delTask(this.props.tlId, this.props.taskProperties.id);
     }
 
     render = () => {

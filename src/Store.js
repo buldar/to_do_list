@@ -1,7 +1,10 @@
-import {applyMiddleware, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import reducer from './Reducers';
 import thunkMiddleware from "redux-thunk";
 
+const rootReducer = combineReducers({
+    todolist: reducer
+})
 
-const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 export default store;

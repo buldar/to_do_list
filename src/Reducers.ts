@@ -1,4 +1,5 @@
 import {api} from "./api";
+import {TodolistType} from "./types/entities";
 
 export const ADD_TODOLIST = 'Todolist/Reducer/ADD-TODOLIST';
 export const ADD_TASK = 'Todolist/ReducerADD-TASK';
@@ -8,13 +9,30 @@ export const DEL_TASK = 'Todolist/ReducerDEL-TASK';
 export const SET_TODOLISTS = 'SET-TODOLISTS';
 export const SET_TASKS = 'SET-TASKS'
 
+//action creator's types
+type ChangeTaskType = {
+    type: typeof CHANGE_TASK_TITLE;
+    taskId: string;
+    obj: any;
+    todolistId: string
+}
+type SetTodolistsType = {
+    type: typeof SET_TODOLISTS;
+    todolists: Array<TodolistType>
+}
+
+//action creators
 const addTodolistCreator = (newToDoList) => ({type: ADD_TODOLIST, newToDoList})
 const addTaskCreator = (newTask, todolistId) => ({type: ADD_TASK, newTask, todolistId})
-const changeTaskCreator = (taskId, obj, todolistId) => ({type: CHANGE_TASK_TITLE, taskId, obj, todolistId})
+const changeTaskCreator = (taskId:string, obj:any, todolistId:string):ChangeTaskType => ({type: CHANGE_TASK_TITLE, taskId, obj, todolistId})
 const delTodolistCreator = (todolistId) => ({type: DEL_TODOLIST, todolistId})
 const delTaskCreator = (todolistId, taskId) => ({type: DEL_TASK, todolistId, taskId})
-const setTodolistsCreator = (todolists) => ({type: SET_TODOLISTS, todolists})
+const setTodolistsCreator = (todolists: Array<TodolistType>):SetTodolistsType => ({type: SET_TODOLISTS, todolists})
 const setTasksCreator = (tasks, todolistId) => ({type: SET_TASKS, tasks, todolistId})
+
+
+
+
 
 export const loadTodolistsThunk = (dispatch) => {
     api.loadTodolists()
@@ -153,7 +171,6 @@ const reducer = (state = initialState, action) => {
             }
 
     }
-    console.log('reducer: ', action);
     return state;
 }
 
