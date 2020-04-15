@@ -1,5 +1,5 @@
 import {api} from "./api";
-import {TodolistType} from "./types/entities";
+import {TaskType, TodolistType} from "./types/entities";
 
 export const ADD_TODOLIST = 'Todolist/Reducer/ADD-TODOLIST';
 export const ADD_TASK = 'Todolist/ReducerADD-TASK';
@@ -21,59 +21,102 @@ type SetTodolistsType = {
     todolists: Array<TodolistType>
 }
 
+type AddTodolistType = {
+    type: typeof ADD_TODOLIST;
+    newToDoList: TodolistType
+}
+type AddTaskType = {
+    type: typeof ADD_TASK;
+    newTask: TaskType;
+    todolistId: string;
+}
+type DelTodolistType = {
+    type: typeof DEL_TODOLIST;
+    todolistId: string
+}
+type DelTaskType = {
+    type: typeof DEL_TASK;
+    todolistId: string;
+    taskId: string;
+}
+type SetTasksType = {
+    type: typeof SET_TASKS;
+    tasks: Array<TaskType>;
+    todolistId: string;
+}
+
+type TodoActionType = ChangeTaskType
+    | SetTodolistsType
+    | AddTodolistType
+    | AddTaskType
+    | DelTodolistType
+    | DelTaskType
+    | SetTasksType
+
+type InitialStateType = {
+    todolists: Array<TodolistType>;
+}
+
 //action creators
-const addTodolistCreator = (newToDoList) => ({type: ADD_TODOLIST, newToDoList})
-const addTaskCreator = (newTask, todolistId) => ({type: ADD_TASK, newTask, todolistId})
-const changeTaskCreator = (taskId:string, obj:any, todolistId:string):ChangeTaskType => ({type: CHANGE_TASK_TITLE, taskId, obj, todolistId})
-const delTodolistCreator = (todolistId) => ({type: DEL_TODOLIST, todolistId})
-const delTaskCreator = (todolistId, taskId) => ({type: DEL_TASK, todolistId, taskId})
-const setTodolistsCreator = (todolists: Array<TodolistType>):SetTodolistsType => ({type: SET_TODOLISTS, todolists})
-const setTasksCreator = (tasks, todolistId) => ({type: SET_TASKS, tasks, todolistId})
+const setTodolistsCreator = (todolists: Array<TodolistType>): SetTodolistsType => ({type: SET_TODOLISTS, todolists})
+const changeTaskCreator = (taskId: string, obj: any, todolistId: string): ChangeTaskType => ({
+    type: CHANGE_TASK_TITLE,
+    taskId,
+    obj,
+    todolistId
+})
+
+const addTodolistCreator = (newToDoList: TodolistType): AddTodolistType => ({type: ADD_TODOLIST, newToDoList})
+const addTaskCreator = (newTask: TaskType, todolistId: string): AddTaskType => ({type: ADD_TASK, newTask, todolistId})
+const delTodolistCreator = (todolistId: string): DelTodolistType => ({type: DEL_TODOLIST, todolistId})
+const delTaskCreator = (todolistId: string, taskId: string): DelTaskType => ({type: DEL_TASK, todolistId, taskId})
+const setTasksCreator = (tasks: Array<TaskType>, todolistId: string): SetTasksType => ({
+    type: SET_TASKS,
+    tasks,
+    todolistId
+})
 
 
-
-
-
-export const loadTodolistsThunk = (dispatch) => {
+export const loadTodolistsThunk = (dispatch:any) => {
     api.loadTodolists()
         .then(res => {
             dispatch(setTodolistsCreator(res.data))
         });
 }
-export const loadTasksThunkCreator = (todolistId) => {
-    return (dispatch) => {
+export const loadTasksThunkCreator = (todolistId:string) => {
+    return (dispatch:any) => {
         api.loadTasks(todolistId)
             .then(res => {
                 dispatch(setTasksCreator(res.data.items, todolistId));
             });
     }
 }
-export const addTodolistThunkCreator = (item) => {
-    return (dispatch) => {
+export const addTodolistThunkCreator = (item:string) => {
+    return (dispatch:any) => {
         api.addTodolist(item)
             .then(res => {
                 dispatch(addTodolistCreator(res.data.data.item));
             });
     }
 }
-export const delTodolistThunkCreator = (todolistId) => {
-    return (dispatch) => {
+export const delTodolistThunkCreator = (todolistId: string) => {
+    return (dispatch:any) => {
         api.delTodolist(todolistId)
             .then(res => {
                 dispatch(delTodolistCreator(todolistId));
             });
     }
 }
-export const changeTaskThunkCreator = (task, obj, todolistId) => {
-    return (dispatch) => {
+export const changeTaskThunkCreator = (task:TaskType, obj:any, todolistId:string) => {
+    return (dispatch:any) => {
         api.changeTask(task, obj, todolistId)
             .then(res => {
                 dispatch(changeTaskCreator(task.id, obj, todolistId))
             });
     }
 }
-export const addTaskThunkCreator = (newText, todolistId) => {
-    return (dispatch) => {
+export const addTaskThunkCreator = (newText:string, todolistId:string) => {
+    return (dispatch:any) => {
         api.addTask(newText, todolistId)
             .then(res => {
 
@@ -82,8 +125,8 @@ export const addTaskThunkCreator = (newText, todolistId) => {
             });
     }
 }
-export const delTaskThunkCreator = (todolistId, taskId) => {
-    return (dispatch) => {
+export const delTaskThunkCreator = (todolistId:string, taskId:string) => {
+    return (dispatch:any) => {
         api.deltask(todolistId, taskId)
             .then(res => {
                 dispatch(delTaskCreator(todolistId, taskId));
@@ -91,11 +134,13 @@ export const delTaskThunkCreator = (todolistId, taskId) => {
     }
 }
 
-const initialState = {
-    todolists: []
-}
 
-const reducer = (state = initialState, action) => {
+const initialState: InitialStateType = {
+    todolists: [],
+ }
+
+
+const reducer = (state = initialState, action:TodoActionType):InitialStateType => {
     switch (action.type) {
         case "SET-TASKS":
             return {
